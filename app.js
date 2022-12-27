@@ -3,12 +3,10 @@ import morgan from "morgan";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import * as dotenv from "dotenv";
+import config from './src/config/config.js';
 
 //import routes
 import { authRoutes } from "./src/index.js";
-
-dotenv.config();
 
 //app
 const app = express();
@@ -33,8 +31,7 @@ db.sequelize
   });
 
 //listen server
-const port = process.env.PORT || 8000;
-
+const port = config.app.PORT;
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });

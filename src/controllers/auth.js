@@ -3,8 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"; //To generate signed token
 import { expressjwt } from "express-jwt"; // For authorization check
 import { errorHandler } from "../helpers/dbErrorHandler.js";
-import dotenv from "dotenv";
-dotenv.config();
+import config from '../config/config.js';
 
 //db models
 const User = db.User;
@@ -17,7 +16,7 @@ export const signup = (req, res) => {
   const user = {};
   user.username = username;
   user.email = email;
-  const hash = bcrypt.hashSync(password, parseInt(process.env.SALT_ROUNDS));
+  const hash = bcrypt.hashSync(password, parseInt(config.app.SALT_ROUNDS));
   user.password = hash;
   User.create(user)
     .then((data) => {
@@ -45,7 +44,7 @@ export const signin = async (req, res) => {
     });
   }
   //generate a signed token with user id and secret
-  const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+  const token = jwt.sign({ _id: user._id }, config.app.JWT_SECRET);
   //persist the token as 't' in cookie with expiry date
   res.cookie("login_token", token, { expire: new Date() + 9999 });
   //return response with user and token to Front end client
@@ -63,7 +62,7 @@ export const signout = (req, res) => {
 
 //User should be logged in
 export const requireSignin = expressjwt({
-  secret: process.env.JWT_SECRET,
+  secret: config.app.JWT_SECRET,
   userProperty: "auth",
   algorithms: ["HS256"],
 });

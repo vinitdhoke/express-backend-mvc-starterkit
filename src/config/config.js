@@ -9,7 +9,9 @@ const ENV = process.env.NODE_ENV || 'development'
 const CONFIG = {
   development: {
     app: {
-      PORT: process.env.PORT || 8000
+      PORT: process.env.PORT || 8000,
+      SALT_ROUNDS: process.env.SALT_ROUNDS,
+      JWT_SECRET: process.env.JWT_SECRET
     },
     logger: {
       warn: logger.warn,
@@ -34,7 +36,9 @@ const CONFIG = {
   },
   production: {
     app: {
-      PORT: process.env.PORT || 8000
+      PORT: process.env.PORT || 8000,
+      SALT_ROUNDS: process.env.SALT_ROUNDS,
+      JWT_SECRET: process.env.JWT_SECRET
     },
     logger: {
       warn: logger.warn,
